@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\audio">
+      <UniqueIdentifier>{761b7328-e989-414d-a46d-ba9f4f732c69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\component">
+      <UniqueIdentifier>{622cd18d-4fa6-4b13-8231-6c1fc4189711}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\bms">
+      <UniqueIdentifier>{c4352d1e-07f2-4cc8-a6b3-d76a91e68d5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\game">
+      <UniqueIdentifier>{865fe0d2-b432-4d94-ab24-3cdc0a661379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scene">
+      <UniqueIdentifier>{923d9b71-7147-4e73-90a2-c8098abaf657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util">
+      <UniqueIdentifier>{4138f4d2-dc20-4cd6-8a79-f0906b32bf30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\event">
+      <UniqueIdentifier>{38a814e3-340c-4170-a1a8-2847a1302f16}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\audio\AudioManager.cpp">
+      <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\audio\GameWav.cpp">
+      <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\audio\Wave.cpp">
+      <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\component\Combo.cpp">
+      <Filter>src\component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\component\Panel.cpp">
+      <Filter>src\component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\component\PlayNoteRenderer.cpp">
+      <Filter>src\component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\bms\BmsNote.cpp">
+      <Filter>src\bms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\bms\BmsParser.cpp">
+      <Filter>src\bms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\bms\BmsChannel.cpp">
+      <Filter>src\bms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\Jukebox.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\Song.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\game\ChannelPlayer.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scene\JukeboxScene.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scene\LoadingScene.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scene\GameScene.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\util\stringutil.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\util\timeutil.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\util\logutil.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\event\EventNames.cpp">
+      <Filter>src\event</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\enums.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\definitions.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\audio\AudioManager.h">
+      <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\audio\GameWav.h">
+      <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\audio\Wave.h">
+      <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\component\Combo.h">
+      <Filter>src\component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\component\Panel.h">
+      <Filter>src\component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\component\PlayNoteRenderer.h">
+      <Filter>src\component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\bms\BmsNote.h">
+      <Filter>src\bms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\bms\BmsParser.h">
+      <Filter>src\bms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\bms\BmsChannel.h">
+      <Filter>src\bms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\bms\BmsDocument.h">
+      <Filter>src\bms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\Jukebox.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\Song.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\game\ChannelPlayer.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scene\JukeboxScene.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scene\LoadingScene.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scene\GameScene.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\util\stringutil.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\util\timeutil.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\util\containerutil.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\util\logutil.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\event\GameConfigEvent.h">
+      <Filter>src\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\event\JudgeEvent.h">
+      <Filter>src\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\event\KeyEvent.h">
+      <Filter>src\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\event\SpeedEvent.h">
+      <Filter>src\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\event\BarScaleEvent.h">
+      <Filter>src\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\event\BpmEvent.h">
+      <Filter>src\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\event\ComboEvent.h">
+      <Filter>src\event</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="game.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Classes\ChannelTypes.inc">
+      <Filter>src</Filter>
+    </None>
+  </ItemGroup>
+</Project>
