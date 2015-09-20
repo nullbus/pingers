@@ -45,12 +45,6 @@
     <ClCompile Include="..\Classes\audio\AudioManager.cpp">
       <Filter>src\audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\audio\GameWav.cpp">
-      <Filter>src\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\audio\Wave.cpp">
-      <Filter>src\audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\component\Combo.cpp">
       <Filter>src\component</Filter>
     </ClCompile>
@@ -99,6 +93,9 @@
     <ClCompile Include="..\Classes\event\EventNames.cpp">
       <Filter>src\event</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\audio\Sound.cpp">
+      <Filter>src\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -117,12 +114,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\audio\AudioManager.h">
-      <Filter>src\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\audio\GameWav.h">
-      <Filter>src\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\audio\Wave.h">
       <Filter>src\audio</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\component\Combo.h">
@@ -196,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\event\ComboEvent.h">
       <Filter>src\event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\audio\Sound.h">
+      <Filter>src\audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

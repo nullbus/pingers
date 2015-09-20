@@ -89,7 +89,7 @@ namespace BMS
 
 		if(song->getStageFile() != "")
 		{
-			Texture2D* texture = TextureCache::getInstance()->addImage((song->getParentPath() + song->getStageFile()).c_str());
+			Texture2D* texture = Director::getInstance()->getTextureCache()->addImage((song->getParentPath() + song->getStageFile()).c_str());
 			mTitleImage->setTexture(texture);
 			if(texture)
 			{

@@ -22,7 +22,7 @@ namespace BMS
 {
 	namespace Audio
 	{
-		class Wave;
+		class Sound;
 	}
 
 	class SongInfo;
@@ -100,7 +100,7 @@ namespace BMS
 		// 라이브러리 맵
 		std::map<std::string, cocos2d::Image*> mImageDictionary;		// for async loading
 		std::map<std::string, cocos2d::Texture2D*> mBgaDictionary;	// texture version of mImageDictionary
-		std::map<std::string, Audio::Wave*> mWavDictionary;
+		std::map<std::string, Audio::Sound*> mWavDictionary;
 	};
 
 }

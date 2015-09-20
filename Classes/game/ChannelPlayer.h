@@ -11,7 +11,7 @@ namespace BMS
 {
 	namespace Audio
 	{
-		class Wave;
+		class Sound;
 	}
 
 	class ChannelPlayer : public cocos2d::Object
@@ -88,10 +88,10 @@ namespace BMS
 
 
 	///
-	class WaveChannelPlayer : public LibraryChannelPlayer<Audio::Wave*>
+	class WaveChannelPlayer : public LibraryChannelPlayer<Audio::Sound*>
 	{
 	public:
-		WaveChannelPlayer(const BmsChannel* channel, const std::map<std::string, Audio::Wave*>& library);
+		WaveChannelPlayer(const BmsChannel* channel, const std::map<std::string, Audio::Sound*>& library);
 		virtual void playNote(const BmsNote* note);
 	};
 
@@ -117,7 +117,7 @@ namespace BMS
 	class PlayChannelPlayer : public WaveChannelPlayer
 	{
 	public:
-		PlayChannelPlayer(const BmsChannel* channel, const std::map<std::string, Audio::Wave*>& library, Key::MappedKey key, bool autoplay = false);
+		PlayChannelPlayer(const BmsChannel* channel, const std::map<std::string, Audio::Sound*>& library, Key::MappedKey key, bool autoplay = false);
 		virtual void autoplay(float pos) override;
 
 	protected:

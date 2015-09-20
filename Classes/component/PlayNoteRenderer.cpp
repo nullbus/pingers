@@ -77,7 +77,7 @@ namespace BMS
 		{
 			const BmsNote* note = mChannelPlayer->getChannel()->notes()[i];
 			Sprite* spriteNote = Sprite::createWithTexture(mBaseSprite->getTexture(), mBaseSprite->getTextureRect());
-			spriteNote->setAnchorPoint(CCPointZero);
+			spriteNote->setAnchorPoint(Point::ZERO);
 			mNoteSprites[i] = spriteNote;
 			addChild(spriteNote);
 		}

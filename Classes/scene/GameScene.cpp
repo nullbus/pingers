@@ -1,7 +1,6 @@
 #include "GameScene.h"
 #include <windows.h>
 #include <algorithm>
-#include "audio/Wave.h"
 #include "bms/BmsChannel.h"
 #include "bms/BmsParser.h"
 #include "component/Panel.h"
@@ -13,6 +12,7 @@
 #include "event/JudgeEvent.h"
 #include "event/KeyEvent.h"
 #include "event/SpeedEvent.h"
+#include "audio/AudioManager.h"
 #include "util/stringutil.h"
 #include "util/timeutil.h"
 #include "util/containerutil.h"
@@ -32,7 +32,7 @@ namespace BMS
 		};
 	}
 
-
+/*
 	static CCImage::EImageFormat computeImageFormatType(string& filename)
 	{
 		CCImage::EImageFormat ret = CCImage::kFmtUnKnown;
@@ -61,7 +61,7 @@ namespace BMS
 #endif
 
 		return ret;
-	}
+	}*/
 
 	GameScene* GameScene::create(SongInfo* song)
 	{
@@ -506,6 +506,7 @@ namespace BMS
 
 		char* supportFormat[] = {"bmp", "jpg", "png"};
 		int supportLen = sizeof(supportFormat) / sizeof(supportFormat[0]);
+
 		// image(bga)
 		for(auto it = mBmsDocument.bga().begin(); it != mBmsDocument.bga().end(); it++)
 		{
@@ -521,8 +522,9 @@ namespace BMS
 					continue;
 				fclose(checkExist);
 
-				CCImage* image = new CCImage();
-				if(false == image->initWithImageFileThreadSafe((path + supportFormat[i]).c_str(), computeImageFormatType(path + supportFormat[i])))
+				auto image = new Image();
+				//if(false == image->initWithImageFileThreadSafe((path + supportFormat[i]).c_str(), computeImageFormatType(path + supportFormat[i])))
+				if (!image->initWithImageFile((path + supportFormat[i]).c_str()))
 				{
 					delete image;
 					continue;
@@ -537,7 +539,7 @@ namespace BMS
 		for(auto it = mBmsDocument.wave().begin(); it != mBmsDocument.wave().end(); it++)
 		{
 			std::string fullpath = mBmsDocument.header().getParentPath() + it->second;
-			mWavDictionary[it->first] = new Audio::Wave(fullpath);
+			mWavDictionary[it->first] = Audio::AudioManager::instance()->loadSound(fullpath.c_str());
 		}
 
 		return true;

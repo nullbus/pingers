@@ -2,7 +2,7 @@
 #include "bms/BmsChannel.h"
 #include "bms/BmsNote.h"
 #include "definitions.h"
-#include "audio/Wave.h"
+#include "audio/Sound.h"
 #include "event/BpmEvent.h"
 #include "event/BarScaleEvent.h"
 #include "event/JudgeEvent.h"
@@ -32,7 +32,7 @@ namespace BMS
 	}
 
 
-	WaveChannelPlayer::WaveChannelPlayer(const BmsChannel* channel, const std::map<std::string, Audio::Wave*>& library):
+	WaveChannelPlayer::WaveChannelPlayer(const BmsChannel* channel, const std::map<std::string, Audio::Sound*>& library):
 		LibraryChannelPlayer(channel, library)
 	{
 
@@ -45,15 +45,14 @@ namespace BMS
 		if(wave != mLibrary.end() && wave->second)
 		{
 			Log::d("play wave %s(%.3f)", note->value().c_str(), note->meterPosition());
-			wave->second->stop();
 			wave->second->play();
 		}
 	}
 
 
-	BgaChannelPlayer::BgaChannelPlayer(const BmsChannel* channel, const std::map<std::string, cocos2d::CCTexture2D*>& library, bool isMiss):
+	BgaChannelPlayer::BgaChannelPlayer(const BmsChannel* channel, const std::map<std::string, cocos2d::Texture2D*>& library, bool isMiss):
 		LibraryChannelPlayer(channel, library),
-		mSprite(CCSprite::create())
+		mSprite(Sprite::create())
 	{
 		if(isMiss) {
 			Director::getInstance()->getEventDispatcher()->addCustomEventListener(Event::JudgeEvent::JUDGE, CC_CALLBACK_1(BgaChannelPlayer::onJudge, this));
@@ -66,13 +65,13 @@ namespace BMS
 		auto bga = mLibrary.find(note->value());
 		if(bga != mLibrary.end() && bga->second)
 		{
-			CCTexture2D* texture = bga->second;
+			Texture2D* texture = bga->second;
 			mSprite->setTexture(texture);
 			mSprite->setVisible(true);
 
 			// preserves current width/height
-			const CCRect rect = CCRectMake(0, 0, texture->getPixelsWide(), texture->getPixelsHigh());
-			const CCSize size = mSprite->getContentSize();
+			const Rect rect = Rect(0, 0, texture->getPixelsWide(), texture->getPixelsHigh());
+			const Size size = mSprite->getContentSize();
 			mSprite->setTextureRect(rect, false, size);
 			mSprite->setScaleX(size.width / rect.size.width);
 			mSprite->setScaleY(size.height / rect.size.height);
@@ -102,21 +101,19 @@ namespace BMS
 		mSprite->setVisible(false);
 	}
 
-	CCSprite* BgaChannelPlayer::getSprite()
+	Sprite* BgaChannelPlayer::getSprite()
 	{
 		return mSprite;
 	}
 
 
-	PlayChannelPlayer::PlayChannelPlayer(const BmsChannel* channel, const std::map<std::string, Audio::Wave*>& library, Key::MappedKey key, bool autoplay /* = false */) : 
+	PlayChannelPlayer::PlayChannelPlayer(const BmsChannel* channel, const std::map<std::string, Audio::Sound*>& library, Key::MappedKey key, bool autoplay /* = false */) : 
 		WaveChannelPlayer(channel, library),
 		mAutoPlay(autoplay),
 		mKey(key)
 	{
-		auto keyListener = EventListenerKeyboard::create();
-		keyListener->onKeyPressed = CC_CALLBACK_1(PlayChannelPlayer::onKeydown, this);
-		keyListener->onKeyReleased = CC_CALLBACK_1(PlayChannelPlayer::onKeyup, this);
-		Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, 1);
+		Director::getInstance()->getEventDispatcher()->addCustomEventListener(Event::KeyEvent::DOWN, CC_CALLBACK_1(PlayChannelPlayer::onKeydown, this));
+		Director::getInstance()->getEventDispatcher()->addCustomEventListener(Event::KeyEvent::DOWN, CC_CALLBACK_1(PlayChannelPlayer::onKeydown, this));
 	}
 
 

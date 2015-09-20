@@ -98,7 +98,7 @@ namespace BMS
 		removeAllChildren();
 
 		// base
-		Texture2D* skinTexture = TextureCache::sharedTextureCache()->addImage(SKIN_PATH);
+		Texture2D* skinTexture = Director::getInstance()->getTextureCache()->addImage(SKIN_PATH);
 		SpriteBatchNode* batchNode = SpriteBatchNode::createWithTexture(skinTexture);
 		addChild(batchNode);
 
@@ -135,7 +135,7 @@ namespace BMS
 
 
 		// overlay
-		ccBlendFunc overlayFunc = {GL_ONE, GL_ONE};
+		BlendFunc overlayFunc = {GL_ONE, GL_ONE};
 		SpriteBatchNode* overlayBatchNode = SpriteBatchNode::createWithTexture(skinTexture);
 		overlayBatchNode->setBlendFunc(overlayFunc);
 		addChild(overlayBatchNode);

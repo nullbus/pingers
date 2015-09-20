@@ -20,7 +20,7 @@ namespace BMS
 	protected:
 		JukeboxScene();
 		void setSelected(int selectedIndex);
-		void onKeyDown(EventKeyboard::KeyCode keyCode, Event *e);
+		void onKeyDown(EventKeyboard::KeyCode keyCode, cocos2d::Event *e);
 
 	protected:
 		Jukebox* mJukebox;

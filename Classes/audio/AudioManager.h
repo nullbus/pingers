@@ -1,13 +1,16 @@
 #pragma once
 
-#include <audiere.h>
 #include <windows.h>
 #include <string>
+#include <vlc/vlc.h>
+#include <map>
 
 namespace BMS
 {
 namespace Audio
 {
+	class Sound;
+
 	class AudioManager
 	{
 	public:
@@ -18,13 +21,16 @@ namespace Audio
 
 		bool init();
 		void shutdown();
-		const audiere::AudioDevicePtr& getDevice() const;
+		
+		Sound* loadSound(const char* filename);
+		void clearCache();
 
 	protected:
 		static AudioManager* sInstance;
 
 	protected:
-		audiere::AudioDevicePtr mDevice;
+		libvlc_instance_t* m_vlc;
+		std::map<std::string, libvlc_media_t*> m_mediaCache;
 	};
 }
 }
