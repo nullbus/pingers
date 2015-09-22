@@ -564,6 +564,9 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
             break;
         case Format::ATITC:
             ret = initWithATITCData(unpackedData, unpackedLen);
+			break;
+		case Format::BMP:
+			ret = initWithBMPData(unpackedData, unpackedLen);
             break;
         default:
             {
@@ -633,6 +636,11 @@ bool Image::isATITC(const unsigned char *data, ssize_t dataLen)
         return false;
     }
     return true;
+}
+
+bool Image::isBMP(const unsigned char * data, ssize_t dataLen)
+{
+	return strncmp((const char*)data, "BM", 2) == 0;
 }
 
 bool Image::isJpg(const unsigned char * data, ssize_t dataLen)
@@ -722,6 +730,10 @@ Image::Format Image::detectFormat(const unsigned char * data, ssize_t dataLen)
     {
         return Format::ATITC;
     }
+	else if (isBMP(data, dataLen))
+	{
+		return Format::BMP;
+	}
     else
     {
         CCLOG("cocos2d: can't detect image format");
@@ -2152,6 +2164,108 @@ bool Image::initWithWebpData(const unsigned char * data, ssize_t dataLen)
 #endif // CC_USE_WEBP
 }
 
+bool Image::initWithBMPData(const unsigned char * data, ssize_t dataLen)
+{
+	bool bRet = false;
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+	do
+	{
+		int offset = 0;
+		BITMAPFILEHEADER& fileHeader = *(BITMAPFILEHEADER*)data;
+		offset += sizeof(BITMAPFILEHEADER);
+		CC_BREAK_IF(offset > dataLen);
+
+		BITMAPINFO& infoHeader = *(BITMAPINFO*)(unsigned(data) + offset);
+		offset += sizeof(BITMAPINFOHEADER);
+		CC_BREAK_IF(offset > dataLen);
+		CC_BREAK_IF(fileHeader.bfType != *(WORD*)"BM");
+		CC_BREAK_IF(infoHeader.bmiHeader.biCompression != BI_RGB);
+
+		_width = infoHeader.bmiHeader.biWidth;
+		_height = infoHeader.bmiHeader.biHeight;
+		_renderFormat = Texture2D::PixelFormat::RGBA8888;
+		_dataLen = _width * _height * 4;
+		_hasPremultipliedAlpha = true;
+		int scanline = _width;
+		while (scanline % 4)
+		{
+			scanline++;
+		}
+
+		if (infoHeader.bmiHeader.biBitCount != 0 && infoHeader.bmiHeader.biBitCount <= 8)
+		{
+			int bytes = _height * scanline * 4;
+			_data = new unsigned char[bytes];
+			CC_BREAK_IF(!_data);
+
+			int numColors = 1 << infoHeader.bmiHeader.biBitCount;
+			RGBQUAD* colorTable = infoHeader.bmiColors;
+			offset += numColors * sizeof(RGBQUAD);
+			int byteDivisor = 8 / infoHeader.bmiHeader.biBitCount;
+			int bitMask = 0xff;
+			if (infoHeader.bmiHeader.biBitCount == 4)
+			{
+				bitMask = 0xf;
+			}
+			else if (infoHeader.bmiHeader.biBitCount == 1)
+			{
+				bitMask = 0x1;
+			}
+
+			for (int y = 0; y < _height; y++)
+			{
+				for (int x = 0; x < _width; x++)
+				{
+					int bitmapOffset = (scanline*y + x);
+					int rawOffset = (scanline*(_height - y - 1) + x) * 4;
+					int bitOffset = 0;
+					if (infoHeader.bmiHeader.biBitCount != 8)
+					{
+						bitmapOffset /= byteDivisor;
+						bitOffset = (byteDivisor - (x % byteDivisor) - 1) * infoHeader.bmiHeader.biBitCount;
+					}
+
+					int colorIndex = (*((unsigned char*)data + offset + bitmapOffset) >> bitOffset) & bitMask;
+					_data[rawOffset] = colorTable[colorIndex].rgbRed;
+					_data[rawOffset + 1] = colorTable[colorIndex].rgbGreen;
+					_data[rawOffset + 2] = colorTable[colorIndex].rgbBlue;
+					_data[rawOffset + 3] = (_data[rawOffset] || _data[rawOffset + 1] || _data[rawOffset + 2] ? 0xff : 0);
+				}
+			}
+			bRet = true;
+		}
+		else if (infoHeader.bmiHeader.biBitCount == 24)
+		{
+			int bytes = (fileHeader.bfSize - fileHeader.bfOffBits) / 3 * 4;
+			_data = new unsigned char[bytes];
+			CC_BREAK_IF(!_data);
+
+			for (int y = 0; y < _height; y++)
+			{
+				for (int x = 0; x < _width; x++)
+				{
+					int bitmapOffset = 3 * (scanline*y + x);
+					int rawOffset = (scanline*(_height - y - 1) + x) * 4;
+					RGBQUAD& rgbQuad = *reinterpret_cast<RGBQUAD*>((char*)data + offset + bitmapOffset);
+					_data[rawOffset] = rgbQuad.rgbRed;
+					_data[rawOffset + 1] = rgbQuad.rgbGreen;
+					_data[rawOffset + 2] = rgbQuad.rgbBlue;
+					_data[rawOffset + 3] = (_data[rawOffset] || _data[rawOffset + 1] || _data[rawOffset + 2] ? 0xff : 0);
+				}
+			}
+			bRet = true;
+		}
+		else
+		{
+			CC_BREAK_IF(true);
+		}
+
+	} while (0);
+#endif
+
+	return bRet;
+}
 
 bool Image::initWithRawData(const unsigned char * data, ssize_t dataLen, int width, int height, int bitsPerComponent, bool preMulti)
 {

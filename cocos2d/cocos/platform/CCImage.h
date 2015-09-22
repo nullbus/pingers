@@ -96,6 +96,8 @@ public:
         TGA,
         //! Raw Data
         RAW_DATA,
+		//! Bitmap
+		BMP,
         //! Unknown format
         UNKNOWN
     };
@@ -170,6 +172,7 @@ protected:
     bool initWithATITCData(const unsigned char *data, ssize_t dataLen);
     typedef struct sImageTGA tImageTGA;
     bool initWithTGAData(tImageTGA* tgaData);
+    bool initWithBMPData(const unsigned char * data, ssize_t dataLen);
 
     bool saveImageToPNG(const std::string& filePath, bool isToRGB = true);
     bool saveImageToJPG(const std::string& filePath);
@@ -219,6 +222,7 @@ protected:
     bool isEtc(const unsigned char * data, ssize_t dataLen);
     bool isS3TC(const unsigned char * data,ssize_t dataLen);
     bool isATITC(const unsigned char *data, ssize_t dataLen);
+    bool isBMP(const unsigned char *data, ssize_t dataLen);
 };
 
 // end of platform group
