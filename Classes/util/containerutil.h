@@ -4,14 +4,15 @@
 
 namespace BMS
 {
-	template <typename T1, typename T2>
-	void clearMap(std::map<T1, T2>& map)
+	template <typename K, typename V>
+	void clearMap(std::map<K, V>& map)
 	{
-		map.swap(std::map<T1, T2>());
+		std::map<K, V> empty;
+		map.swap(empty);
 	}
 
-	template <typename T1, typename T2>
-	void clearPointerMap(std::map<T1, T2>& map)
+	template <typename K, typename V>
+	void clearPointerMap(std::map<K, V>& map)
 	{
 		for(auto it = map.begin(); it != map.end(); it++)
 			delete it->second;
@@ -19,14 +20,15 @@ namespace BMS
 		clearMap(map);
 	}
 
-	template <typename T1>
-	void clearVector(std::vector<T1>& vector)
+	template <typename T>
+	void clearVector(std::vector<T>& vector)
 	{
-		vector.swap(std::vector<T1>());
+		std::vector<T> empty;
+		vector.swap(empty);
 	}
 
-	template <typename T1>
-	void clearPointerVector(std::vector<T1>& vector)
+	template <typename T>
+	void clearPointerVector(std::vector<T>& vector)
 	{
 		for(auto it = vector.begin(); it != vector.end(); it++)
 			delete *it;

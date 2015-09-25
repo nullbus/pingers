@@ -14,6 +14,7 @@ namespace BMS
 
 	public:
 		LoadingScene(SongInfo *song);
+		virtual ~LoadingScene();
 
 		virtual bool init() override;
 		virtual void update(float delta) override;

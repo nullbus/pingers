@@ -65,7 +65,7 @@ namespace BMS
 			setSelected(mSelectedIndex + 1);
 			break;
 
-		case EventKeyboard::KeyCode::KEY_RETURN:
+		case EventKeyboard::KeyCode::KEY_KP_ENTER:
 		{
 			SongInfo* song = mJukebox->getSong(mSelectedIndex);
 			Director::getInstance()->pushScene(LoadingScene::scene(song));

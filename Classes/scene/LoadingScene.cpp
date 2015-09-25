@@ -52,10 +52,20 @@ namespace BMS
 		mGameScene(NULL)
 	{}
 
+	LoadingScene::~LoadingScene()
+	{
+		if (mGameScene)
+		{
+			mGameScene->release();
+			mGameScene = NULL;
+		}
+	}
+
 
 	bool LoadingScene::init()
 	{
 		mGameScene = GameScene::create(mSong);
+		mGameScene->retain();
 
 		DWORD tid;
 		HANDLE hThread = CreateThread(NULL, 0, LoadStart, this, 0, &tid);
