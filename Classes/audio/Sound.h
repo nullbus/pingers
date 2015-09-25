@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <vlc/vlc.h>
+#include <irrKlang.h>
 
 namespace BMS
 {
@@ -10,7 +10,7 @@ namespace BMS
 		class Sound
 		{
 		public: 
-			bool init(libvlc_media_t* audio);
+			bool init(irrklang::ISound* audio);
 
 			Sound();
 			virtual ~Sound();
@@ -19,7 +19,7 @@ namespace BMS
 			void stop();
 
 		protected:
-			libvlc_media_player_t* m_player;
+			irrklang::ISound* m_player;
 			std::string m_path;
 		};
 	}

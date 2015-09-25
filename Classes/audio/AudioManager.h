@@ -2,7 +2,7 @@
 
 #include <windows.h>
 #include <string>
-#include <vlc/vlc.h>
+#include <irrKlang.h>
 #include <map>
 
 namespace BMS
@@ -29,8 +29,8 @@ namespace Audio
 		static AudioManager* sInstance;
 
 	protected:
-		libvlc_instance_t* m_vlc;
-		std::map<std::string, libvlc_media_t*> m_mediaCache;
+		irrklang::ISoundEngine* m_engine;
+		std::map<std::string, irrklang::ISoundSource*> m_mediaCache;
 	};
 }
 }

@@ -22,14 +22,14 @@ namespace BMS
 			return sInstance;
 		}
 
-		AudioManager::AudioManager() :
-			m_vlc(0)
-		{}
+		AudioManager::AudioManager() : m_engine(0)
+		{
+		}
 
 		bool AudioManager::init()
 		{
-			auto vlc = libvlc_new(0, NULL);
-			if (!vlc)
+			m_engine = irrklang::createIrrKlangDevice();
+			if (!m_engine)
 				return false;
 
 			return true;
@@ -37,27 +37,27 @@ namespace BMS
 
 		void AudioManager::shutdown()
 		{
-			if (m_vlc)
+			if (m_engine)
 			{
-				libvlc_release(m_vlc);
-				m_vlc = NULL;
+				m_engine->drop();
+				m_engine = NULL;
 			}
 		}
 
 		Sound* AudioManager::loadSound(const char* path)
 		{
-			if (!m_vlc)
+			if (!m_engine)
 				return NULL;
 
 			auto cachedMedia = m_mediaCache.find(path);
-			libvlc_media_t* media = NULL;
+			irrklang::ISoundSource* media = NULL;
 			if (cachedMedia != m_mediaCache.end())
 			{
 				media = cachedMedia->second;
 			}
 			else
 			{
-				media = libvlc_media_new_location(m_vlc, path);
+				media = m_engine->addSoundSourceFromFile(path, irrklang::ESM_AUTO_DETECT, true);
 				if (!media)
 					return NULL;
 
@@ -65,7 +65,7 @@ namespace BMS
 			}
 
 			auto sound = new Sound;
-			if (sound->init(media))
+			if (sound->init(m_engine->play2D(path, false, true)))
 				return sound;
 
 			delete sound;
@@ -76,11 +76,10 @@ namespace BMS
 		{
 			for (auto it = m_mediaCache.begin(); it != m_mediaCache.end(); ++it)
 			{
-				// libvlc_media_new_location할 때 이미 retain되어 있으므로 해제해 주어야 한다
-				libvlc_media_release(it->second);
+				m_engine->removeSoundSource(it->first.c_str());
 			}
 
-			std::map<std::string, libvlc_media_t*> empty;
+			std::map<std::string, irrklang::ISoundSource*> empty;
 			m_mediaCache.swap(empty);
 		}
 	}

@@ -20,18 +20,17 @@ namespace BMS
 
 			if (m_player)
 			{
-				libvlc_media_player_release(m_player);
+				m_player->drop();
 				m_player = NULL;
 			}
 		}
 
-		bool Sound::init(libvlc_media_t* audio)
+		bool Sound::init(irrklang::ISound* audio)
 		{
-			auto player = libvlc_media_player_new_from_media(audio);
-			if (!player)
-				return false;
+			m_player = audio;
+			if (m_player)
+				m_path = m_player->getSoundSource()->getName();
 
-			m_player = player;
 			return true;
 		}
 
@@ -42,8 +41,8 @@ namespace BMS
 
 			stop();
 
-			libvlc_media_player_set_position(m_player, .0f);
-			libvlc_media_player_play(m_player);
+			m_player->setPlayPosition(0);
+			m_player->setIsPaused(false);
 		}
 
 		void Sound::stop()
@@ -51,7 +50,7 @@ namespace BMS
 			if (!m_player)
 				return;
 
-			libvlc_media_player_stop(m_player);
+			m_player->stop();
 		}
 	}
 }
