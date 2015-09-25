@@ -11,7 +11,7 @@ namespace BMS
 			//const int alternative_length = sizeof(alternative_suffix) / sizeof(alternative_suffix[0]);
 		}
 
-		Sound::Sound() : m_player(0) {}
+		Sound::Sound() : m_player(0), m_engine(0), m_playing(0) {}
 
 		Sound::~Sound()
 		{
@@ -23,13 +23,17 @@ namespace BMS
 				m_player->drop();
 				m_player = NULL;
 			}
+
+			// do not drop engine here
+			m_engine = NULL;
 		}
 
-		bool Sound::init(irrklang::ISound* audio)
+		bool Sound::init(irrklang::ISoundEngine* engine, irrklang::ISoundSource* audio)
 		{
+			m_engine = engine;
 			m_player = audio;
 			if (m_player)
-				m_path = m_player->getSoundSource()->getName();
+				m_path = audio->getName();
 
 			return true;
 		}
@@ -41,16 +45,16 @@ namespace BMS
 
 			stop();
 
-			m_player->setPlayPosition(0);
-			m_player->setIsPaused(false);
+			m_playing = m_engine->play2D(m_player);
 		}
 
 		void Sound::stop()
 		{
-			if (!m_player)
+			if (!m_playing)
 				return;
 
-			m_player->stop();
+			m_playing->stop();
+			m_playing = NULL;
 		}
 	}
 }

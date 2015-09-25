@@ -10,7 +10,7 @@ namespace BMS
 		class Sound
 		{
 		public: 
-			bool init(irrklang::ISound* audio);
+			bool init(irrklang::ISoundEngine* engine, irrklang::ISoundSource* audio);
 
 			Sound();
 			virtual ~Sound();
@@ -19,7 +19,14 @@ namespace BMS
 			void stop();
 
 		protected:
-			irrklang::ISound* m_player;
+			// reference
+			irrklang::ISoundEngine* m_engine;
+
+			// we manage it
+			irrklang::ISoundSource* m_player;
+			irrklang::ISound* m_playing;
+
+			// for debug
 			std::string m_path;
 		};
 	}

@@ -65,7 +65,7 @@ namespace BMS
 			}
 
 			auto sound = new Sound;
-			if (sound->init(m_engine->play2D(path, false, true)))
+			if (sound->init(m_engine, media))
 				return sound;
 
 			delete sound;
