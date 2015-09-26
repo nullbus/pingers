@@ -5,7 +5,7 @@
 namespace BMS
 {
 
-	std::string trim(std::string input);
+	std::string trim(const std::string& input);
 	std::string readLine(FILE* file);
 	const int base36ToInt(const char* base36);
 	const int base16ToInt(const char* base16);

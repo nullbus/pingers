@@ -6,29 +6,28 @@
 #include <stdio.h>
 #include <assert.h>
 
-// trim from start
-static inline std::string &ltrim(std::string &s) {
-	s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
-	return s;
-}
+namespace
+{
+	std::string& ltrim(std::string& str)
+	{
+		auto it2 = std::find_if(str.begin(), str.end(), [](char ch) { return !std::isspace<char>(ch, std::locale::classic()); });
+		str.erase(str.begin(), it2);
+		return str;
+	}
 
-// trim from end
-static inline std::string &rtrim(std::string &s) {
-	s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
-	return s;
+	std::string& rtrim(std::string& str)
+	{
+		auto it1 = std::find_if(str.rbegin(), str.rend(), [](char ch) { return !std::isspace<char>(ch, std::locale::classic()); });
+		str.erase(it1.base(), str.end());
+		return str;
+	}
 }
-
-// trim from both ends
-static inline std::string &trim(std::string &s) {
-	return ltrim(rtrim(s));
-}
-
 namespace BMS
 {
-
-	std::string trim(std::string input)
+	std::string trim(const std::string& str)
 	{
-		return ::trim(input);
+		auto str_copy = str;
+		return ltrim(rtrim(str_copy));
 	}
 
 	std::string readLine(FILE* file)
