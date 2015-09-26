@@ -16,15 +16,11 @@ namespace BMS
 		Sound::~Sound()
 		{
 			Log::d("delete wave");
+
 			stop();
 
-			if (m_player)
-			{
-				m_player->drop();
-				m_player = NULL;
-			}
-
-			// do not drop engine here
+			// do not drop source and engine here
+			m_player = NULL;
 			m_engine = NULL;
 		}
 
@@ -54,6 +50,7 @@ namespace BMS
 				return;
 
 			m_playing->stop();
+			m_playing->drop();
 			m_playing = NULL;
 		}
 	}

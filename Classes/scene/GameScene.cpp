@@ -13,6 +13,7 @@
 #include "event/KeyEvent.h"
 #include "event/SpeedEvent.h"
 #include "audio/AudioManager.h"
+#include "audio/Sound.h"
 #include "util/stringutil.h"
 #include "util/timeutil.h"
 #include "util/containerutil.h"
@@ -138,6 +139,15 @@ namespace BMS
 	GameScene::~GameScene()
 	{
 		removeAllChildrenWithCleanup(true);
+
+		// remove game event listeners
+		Director::getInstance()->getEventDispatcher()->removeCustomEventListeners(Event::BpmEvent::CHANGED);
+		Director::getInstance()->getEventDispatcher()->removeCustomEventListeners(Event::ComboEvent::CHANGED);
+		Director::getInstance()->getEventDispatcher()->removeCustomEventListeners(Event::GameConfigEvent::RESET);
+		Director::getInstance()->getEventDispatcher()->removeCustomEventListeners(Event::JudgeEvent::JUDGE);
+		Director::getInstance()->getEventDispatcher()->removeCustomEventListeners(Event::KeyEvent::DOWN);
+		Director::getInstance()->getEventDispatcher()->removeCustomEventListeners(Event::KeyEvent::UP);
+		Director::getInstance()->getEventDispatcher()->removeCustomEventListeners(Event::SpeedEvent::CHANGED);
 
 		// clear
 		clearPointerMap(mImageDictionary);
@@ -431,7 +441,8 @@ namespace BMS
 
 	void GameScene::gameEnd()
 	{
-		CCDirector::sharedDirector()->replaceScene(JukeboxScene::scene());
+		Audio::AudioManager::instance()->clearCache();
+		CCDirector::sharedDirector()->popScene();
 	}
 
 

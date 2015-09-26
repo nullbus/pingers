@@ -100,7 +100,7 @@ namespace BMS
 			if(scene && mGameScene)
 				scene->addChild(mGameScene);
 
-			Director::getInstance()->pushScene(scene);
+			Director::getInstance()->replaceScene(scene);
 		}
 		else if(m_bFailed)
 		{
