@@ -64,7 +64,7 @@ namespace BMS
 			else
 			{
 				auto pathStruct = std::tr2::sys::path(path);
-				media = m_engine->addSoundSourceFromFile(pathStruct.string().c_str(), irrklang::ESM_AUTO_DETECT, true);
+				media = loadSoundSource(pathStruct.string().c_str());
 
 				if (!media->getSampleData())
 				{
@@ -72,7 +72,7 @@ namespace BMS
 					for (int i = 0; i < sizeof(alternative_suffix) / sizeof(*alternative_suffix); i++)
 					{
 						auto alter = pathStruct.replace_extension(alternative_suffix[i]);
-						media = m_engine->addSoundSourceFromFile(alter.string().c_str(), irrklang::ESM_AUTO_DETECT, true);
+						media = loadSoundSource(alter.string().c_str());
 						if (media && media->getSampleData())
 							break;
 					}
@@ -88,6 +88,15 @@ namespace BMS
 
 			delete sound;
 			return NULL;
+		}
+
+		irrklang::ISoundSource* AudioManager::loadSoundSource(const char* filename)
+		{
+			auto media = m_engine->addSoundSourceFromFile(filename, irrklang::ESM_AUTO_DETECT, true);
+			if (!media)
+				media = m_engine->getSoundSource(filename, false);
+
+			return media;
 		}
 
 		void AudioManager::clearCache()

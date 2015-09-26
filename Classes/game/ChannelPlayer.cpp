@@ -113,7 +113,6 @@ namespace BMS
 		mKey(key)
 	{
 		Director::getInstance()->getEventDispatcher()->addCustomEventListener(Event::KeyEvent::DOWN, CC_CALLBACK_1(PlayChannelPlayer::onKeydown, this));
-		Director::getInstance()->getEventDispatcher()->addCustomEventListener(Event::KeyEvent::DOWN, CC_CALLBACK_1(PlayChannelPlayer::onKeydown, this));
 	}
 
 

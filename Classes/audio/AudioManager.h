@@ -26,6 +26,9 @@ namespace Audio
 		void clearCache();
 
 	protected:
+		irrklang::ISoundSource* loadSoundSource(const char* filename);
+
+	protected:
 		static AudioManager* sInstance;
 
 	protected:
