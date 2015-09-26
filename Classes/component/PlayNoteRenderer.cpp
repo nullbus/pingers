@@ -49,10 +49,15 @@ namespace BMS
 			mNoteSprites[i]->setVisible(false);
 		}
 
+		float maxHeight = Director::getInstance()->getVisibleSize().height;
 		for(unsigned i=mChannelPlayer->numProcessedNotes() ; i < mChannelPlayer->getChannel()->notes().size(); i++)
 		{
 			const BmsNote* note = mChannelPlayer->getChannel()->notes()[i];
 			float drawPosition = (note->drawPosition() - currentMeter) * mOriginalBpm * mSpeed;
+			if (drawPosition > maxHeight)
+				break;
+
+			mNoteSprites[i]->setVisible(true);
 			mNoteSprites[i]->setPositionY(drawPosition);
 		}
 	}
@@ -78,6 +83,7 @@ namespace BMS
 			const BmsNote* note = mChannelPlayer->getChannel()->notes()[i];
 			Sprite* spriteNote = Sprite::createWithTexture(mBaseSprite->getTexture(), mBaseSprite->getTextureRect());
 			spriteNote->setAnchorPoint(Point::ZERO);
+			spriteNote->setVisible(false);
 			mNoteSprites[i] = spriteNote;
 			addChild(spriteNote);
 		}
