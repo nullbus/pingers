@@ -76,7 +76,8 @@ namespace BMS
 			return;
 
 		int length = mChannelPlayer->getChannel()->notes().size();
-		mNoteSprites.swap(std::vector<Node*>(length));
+		std::vector<Node*> empty(length);
+		mNoteSprites.swap(empty);
 
 		for(int i=0; i<length; i++)
 		{

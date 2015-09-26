@@ -1,19 +1,12 @@
 #include "timeutil.h"
-#include <Windows.h>
+#include <chrono>
 
 namespace BMS
 {
 	float currentTime()
 	{
-		LARGE_INTEGER counter, frequency;
-		if(FALSE == QueryPerformanceCounter(&counter))
-		{
-			return GetTickCount64() / 1000.0;
-		}
-		else
-		{
-			QueryPerformanceFrequency(&frequency);
-			return counter.QuadPart / float(frequency.QuadPart);
-		}
+		auto now = std::chrono::high_resolution_clock::now();
+		auto ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
+		return ms.time_since_epoch().count() / 1000.0;
 	}
 }

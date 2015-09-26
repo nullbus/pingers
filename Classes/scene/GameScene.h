@@ -53,17 +53,17 @@ namespace BMS
 		void onJudge(cocos2d::EventCustom* event);
 		void onBpmChanged(cocos2d::EventCustom* event);
 
-		bool isPassed(const BmsNote *note, int bpm, double rate, INT64 playTime, int posit)
+		bool isPassed(const BmsNote *note, int bpm, double rate, int64_t playTime, int posit)
 		{
 			// 노트가 판정선을 통과했는지 체크
 			return getNotePosit(note, bpm, rate, playTime, posit) <= 0;
 		}
-		double getNotePosit(const BmsNote *note, int bpm, double rate, INT64 playTime, int posit)
+		double getNotePosit(const BmsNote *note, int bpm, double rate, int64_t playTime, int posit)
 		{
 			// 현재로부터 상대적인 시간상의 위치를 찾아줌(기준: playTime)
 			return ( note->meterPosition() * SINK1 * rate / bpm - (int)playTime );
 		}
-		double getMonitorPosit(const BmsNote *note, int bpm, double rate, INT64 playTime, int posit)
+		double getMonitorPosit(const BmsNote *note, int bpm, double rate, int64_t playTime, int posit)
 		{
 			// 시간상의 위치를 화면좌표로 변환
 			return getNotePosit(note, bpm, rate, playTime, posit) * bpm * mSpeed / (1<<SINK2);

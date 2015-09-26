@@ -1,6 +1,5 @@
 #pragma once
 
-#include <windows.h>
 #include <string>
 #include <irrKlang.h>
 #include <map>

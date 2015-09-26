@@ -1,5 +1,4 @@
 #include "GameScene.h"
-#include <windows.h>
 #include <algorithm>
 #include "bms/BmsChannel.h"
 #include "bms/BmsParser.h"

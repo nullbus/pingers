@@ -1,7 +1,5 @@
 #include "AudioManager.h"
-#include <tchar.h>
 #include "Sound.h"
-#include <filesystem>
 
 namespace
 {
@@ -63,16 +61,18 @@ namespace BMS
 			}
 			else
 			{
-				auto pathStruct = std::tr2::sys::path(path);
-				media = loadSoundSource(pathStruct.string().c_str());
+				std::string strPath = path;
+				auto extPos = strPath.rfind('.');
+				
+				media = loadSoundSource(strPath.c_str());
 
 				if (!media->getSampleData())
 				{
 					// try alternative
 					for (int i = 0; i < sizeof(alternative_suffix) / sizeof(*alternative_suffix); i++)
 					{
-						auto alter = pathStruct.replace_extension(alternative_suffix[i]);
-						media = loadSoundSource(alter.string().c_str());
+						auto alter = strPath.substr(0, extPos) + alternative_suffix[i];
+						media = loadSoundSource(alter.c_str());
 						if (media && media->getSampleData())
 							break;
 					}
