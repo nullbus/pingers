@@ -102,16 +102,16 @@ namespace BMS
 		SpriteBatchNode* batchNode = SpriteBatchNode::createWithTexture(skinTexture);
 		addChild(batchNode);
 
-		Rect rtScratch = Rect(3, 1, 30, 420);
-		Rect rtChannel1 = Rect(35, 1, 18, 420);
-		Rect rtChannel2 = Rect(54, 1, 18, 420);
-		Rect rtScratchLine = Rect(33, 1, 2, 420);
-		Rect rtChannel1Line = Rect(53, 1, 1, 420);
-		Rect rtChannel2Line = Rect(72, 1, 1, 420);
-		Rect rtLeftAccesory = Rect(435, 35, 25, 420);
-		Rect rtRightAccesory = Rect(460, 35, 12, 420);
-		Rect rtLeftBottom = Rect(216, 1, 25, 45);
-		Rect rtRightBottom = Rect(241, 1, 12, 45);
+		Rect rtScratch = CC_RECT_PIXELS_TO_POINTS(Rect(3, 1, 30, 420));
+		Rect rtChannel1 = CC_RECT_PIXELS_TO_POINTS(Rect(35, 1, 18, 420));
+		Rect rtChannel2 = CC_RECT_PIXELS_TO_POINTS(Rect(54, 1, 18, 420));
+		Rect rtScratchLine = CC_RECT_PIXELS_TO_POINTS(Rect(33, 1, 2, 420));
+		Rect rtChannel1Line = CC_RECT_PIXELS_TO_POINTS(Rect(53, 1, 1, 420));
+		Rect rtChannel2Line = CC_RECT_PIXELS_TO_POINTS(Rect(72, 1, 1, 420));
+		Rect rtLeftAccesory = CC_RECT_PIXELS_TO_POINTS(Rect(435, 35, 25, 420));
+		Rect rtRightAccesory = CC_RECT_PIXELS_TO_POINTS(Rect(460, 35, 12, 420));
+		Rect rtLeftBottom = CC_RECT_PIXELS_TO_POINTS(Rect(216, 1, 25, 45));
+		Rect rtRightBottom = CC_RECT_PIXELS_TO_POINTS(Rect(241, 1, 12, 45));
 
 		Sprite* leftBottom = addHorizontal(batchNode, rtLeftBottom, true);
 
@@ -140,9 +140,9 @@ namespace BMS
 		overlayBatchNode->setBlendFunc(overlayFunc);
 		addChild(overlayBatchNode);
 
-		Rect rtScratchLight = Rect(73, 1, 30, 420);
-		Rect rtChannel1Light = Rect(105, 1, 18, 420);
-		Rect rtChannel2Light = Rect(124, 1, 18, 420);
+		Rect rtScratchLight = CC_RECT_PIXELS_TO_POINTS(Rect(73, 1, 30, 420));
+		Rect rtChannel1Light = CC_RECT_PIXELS_TO_POINTS(Rect(105, 1, 18, 420));
+		Rect rtChannel2Light = CC_RECT_PIXELS_TO_POINTS(Rect(124, 1, 18, 420));
 
 		mLightSprites[Key::Player1_Scratch] = addOverlay(overlayBatchNode, rtScratchLight, scratch);
 		mLightSprites[Key::Player1_1] = addOverlay(overlayBatchNode, rtChannel1Light, key1);
@@ -153,16 +153,11 @@ namespace BMS
 
 
 		// note
+		Sprite* scratchNote = Sprite::createWithTexture(skinTexture, CC_RECT_PIXELS_TO_POINTS(Rect(143, 93, 30, 21)));
+		Sprite* channel1Note = Sprite::createWithTexture(skinTexture, CC_RECT_PIXELS_TO_POINTS(Rect(174, 93, 18, 21)));
+		Sprite* channel2Note = Sprite::createWithTexture(skinTexture, CC_RECT_PIXELS_TO_POINTS(Rect(193, 93, 18, 21)));
+
 		std::map<std::string, ChannelPlayer*>& ncPlayers = const_cast<std::map<std::string, ChannelPlayer*>&>(mChannelPlayers);
-
-		Rect rtScratchNote = Rect(143, 93, 30, 21);
-		Rect rtChannel1Note = Rect(174, 93, 18, 21);
-		Rect rtChannel2Note = Rect(193, 93, 18, 21);
-
-		Sprite* scratchNote = Sprite::createWithTexture(skinTexture, rtScratchNote);
-		Sprite* channel1Note = Sprite::createWithTexture(skinTexture, rtChannel1Note);
-		Sprite* channel2Note = Sprite::createWithTexture(skinTexture, rtChannel2Note);
-
 		PlayNoteRenderer* scratchRenderer = new PlayNoteRenderer((PlayChannelPlayer*)ncPlayers["16"], scratchNote);
 		PlayNoteRenderer* key1Renderer = new PlayNoteRenderer((PlayChannelPlayer*)ncPlayers["11"], channel1Note);
 		PlayNoteRenderer* key2Renderer = new PlayNoteRenderer((PlayChannelPlayer*)ncPlayers["12"], channel2Note);
@@ -204,12 +199,12 @@ namespace BMS
 		SpriteBatchNode* batchNode = SpriteBatchNode::create(SKIN_PATH);
 		addChild(batchNode);
 
-		Rect rtScratch = Rect(143, 1, 34, 45);
-		Rect rtChannel1 = Rect(177, 1, 19, 45);
-		Rect rtChannel2 = Rect(196, 1, 19, 45);
+		Rect rtScratch = CC_RECT_PIXELS_TO_POINTS(Rect(143, 1, 34, 45));
+		Rect rtChannel1 = CC_RECT_PIXELS_TO_POINTS(Rect(177, 1, 19, 45));
+		Rect rtChannel2 = CC_RECT_PIXELS_TO_POINTS(Rect(196, 1, 19, 45));
 
 		Sprite* scratch = addHorizontal(batchNode, rtScratch, true);
-		scratch->setPosition(Point(24, 0));	// 25 is rtLeftBottom's width
+		scratch->setPosition(CC_POINT_PIXELS_TO_POINTS(Point(24, 0)));	// 25 is rtLeftBottom's width
 		Sprite* key1 = addHorizontal(batchNode, rtChannel1);
 		Sprite* key2 = addHorizontal(batchNode, rtChannel2);
 		Sprite* key3 = addHorizontal(batchNode, rtChannel1);
@@ -221,9 +216,9 @@ namespace BMS
 		SpriteBatchNode* overlayBatchNode = SpriteBatchNode::create(SKIN_PATH);
 		addChild(overlayBatchNode);
 
-		Rect rtScratchPress = Rect(143, 47, 34, 45);
-		Rect rtChannel1Press = Rect(177, 47, 19, 45);
-		Rect rtChannel2Press = Rect(196, 47, 19, 45);
+		Rect rtScratchPress = CC_RECT_PIXELS_TO_POINTS(Rect(143, 47, 34, 45));
+		Rect rtChannel1Press = CC_RECT_PIXELS_TO_POINTS(Rect(177, 47, 19, 45));
+		Rect rtChannel2Press = CC_RECT_PIXELS_TO_POINTS(Rect(196, 47, 19, 45));
 
 		mButtonPress[Key::Player1_Scratch] = addOverlay(overlayBatchNode, rtScratchPress, scratch);
 		mButtonPress[Key::Player1_1] = addOverlay(overlayBatchNode, rtChannel1Press, key1);
@@ -234,7 +229,7 @@ namespace BMS
 
 		Node* combo = new Combo();
 		addChild(combo);
-		combo->setPosition(Point(key3->getPositionX(), key3->getPositionY() + 130));
+		combo->setPosition(Point(key3->getPositionX(), key3->getPositionY() + 130 * CC_CONTENT_SCALE_FACTOR()));
 	}
 
 	void FrontPanel::onKeyDown(EventCustom* event)
