@@ -1,4 +1,9 @@
 #include "logutil.h"
+#include <cstdarg>
+
+#ifdef _MSC_VER
+#include <Windows.h>
+#endif
 
 namespace BMS
 {
@@ -8,8 +13,12 @@ namespace Log
 	{
 		char buffer[0x1000];
 		vsprintf(buffer, format, args);
+#ifdef _MSC_VER
 		OutputDebugStringA(buffer);
 		OutputDebugStringA("\n");
+#else
+		printf(buffer);
+#endif
 	}
 
 	void i(const char* format, ...)

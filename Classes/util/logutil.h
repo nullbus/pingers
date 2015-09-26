@@ -1,7 +1,5 @@
 #pragma once
 #include <stdio.h>
-#include <vadefs.h>
-#include <Windows.h>
 
 namespace BMS
 {
