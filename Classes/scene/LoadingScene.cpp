@@ -5,13 +5,6 @@ using namespace cocos2d;
 
 namespace BMS
 {
-	static void LoadStart(LPVOID pointerToLoadingScene)
-	{
-		LoadingScene *pThis = static_cast<LoadingScene*>( pointerToLoadingScene );
-		pThis->startLoading();
-	}
-
-
 	Scene* LoadingScene::scene(SongInfo* song)
 	{
 		Scene* scene = Scene::create();
@@ -67,7 +60,7 @@ namespace BMS
 		mGameScene = GameScene::create(mSong);
 		mGameScene->retain();
 
-		m_loadThread = std::thread(LoadStart, this);
+		m_loadThread = std::thread(std::bind(&LoadingScene::startLoading, this));
 		Sprite* stageImage = Sprite::create((mSong->getParentPath() + mSong->getStageFile()).c_str());
 		if(stageImage)
 		{
