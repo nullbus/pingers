@@ -1,6 +1,12 @@
 #include "AudioManager.h"
 #include <tchar.h>
 #include "Sound.h"
+#include <filesystem>
+
+namespace
+{
+	const char* alternative_suffix[] = {"wav", "mp3", "ogg"};
+}
 
 namespace BMS
 {
@@ -57,11 +63,23 @@ namespace BMS
 			}
 			else
 			{
-				media = m_engine->addSoundSourceFromFile(path, irrklang::ESM_AUTO_DETECT, true);
-				if (!media)
-					return NULL;
+				auto pathStruct = std::tr2::sys::path(path);
+				media = m_engine->addSoundSourceFromFile(pathStruct.string().c_str(), irrklang::ESM_AUTO_DETECT, true);
 
-				m_mediaCache.insert(std::make_pair(path, media));
+				if (!media->getSampleData())
+				{
+					// try alternative
+					for (int i = 0; i < sizeof(alternative_suffix) / sizeof(*alternative_suffix); i++)
+					{
+						auto alter = pathStruct.replace_extension(alternative_suffix[i]);
+						media = m_engine->addSoundSourceFromFile(alter.string().c_str(), irrklang::ESM_AUTO_DETECT, true);
+						if (media && media->getSampleData())
+							break;
+					}
+				}
+
+				if (!media->getSampleData())
+					return NULL;
 			}
 
 			auto sound = new Sound;
