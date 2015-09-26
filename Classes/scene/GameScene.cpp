@@ -169,8 +169,14 @@ namespace BMS
 
 		for(auto it = mChannelPlayers.begin(); it != mChannelPlayers.end(); it++)
 		{
-			if(it->second)
+			if (it->second)
+			{
+				// invisible note
+				if (it->first[0] == '3' || it->first[0] == '4')
+					continue;
+
 				it->second->autoplay(position);
+			}
 		}
 
 		/*
