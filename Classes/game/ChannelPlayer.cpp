@@ -70,7 +70,7 @@ namespace BMS
 			mSprite->setVisible(true);
 
 			// preserves current width/height
-			const Rect rect = Rect(0, 0, texture->getPixelsWide(), texture->getPixelsHigh());
+			const Rect rect = CC_RECT_PIXELS_TO_POINTS(Rect(0, 0, texture->getPixelsWide(), texture->getPixelsHigh()));
 			const Size size = mSprite->getContentSize();
 			mSprite->setTextureRect(rect, false, size);
 			mSprite->setScaleX(size.width / rect.size.width);

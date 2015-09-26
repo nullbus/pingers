@@ -648,8 +648,8 @@ namespace BMS
 				{
 					BgaChannelPlayer* bgaPlayer = new BgaChannelPlayer(it->second, mBgaDictionary, base36ToInt(ChannelType::BGA_POOR) == iChannel);
 					mChannelPlayers[channel] = bgaPlayer;
-					bgaPlayer->getSprite()->setContentSize(CCSizeMake(640, 480));
-					bgaPlayer->getSprite()->setPosition(ccp(640, 480));
+					bgaPlayer->getSprite()->setContentSize(Size(640, 480));
+					bgaPlayer->getSprite()->setPosition(Point(640, 480));
 					addChild(bgaPlayer->getSprite());
 				}
 			}
