@@ -1,16 +1,14 @@
 #include "LoadingScene.h"
 #include "GameScene.h"
-#include <Windows.h>
 #include "JukeboxScene.h"
 using namespace cocos2d;
 
 namespace BMS
 {
-	static DWORD WINAPI LoadStart(LPVOID pointerToLoadingScene)
+	static void LoadStart(LPVOID pointerToLoadingScene)
 	{
 		LoadingScene *pThis = static_cast<LoadingScene*>( pointerToLoadingScene );
 		pThis->startLoading();
-		return 0;
 	}
 
 
@@ -54,6 +52,8 @@ namespace BMS
 
 	LoadingScene::~LoadingScene()
 	{
+		m_loadThread.join();
+
 		if (mGameScene)
 		{
 			mGameScene->release();
@@ -67,11 +67,7 @@ namespace BMS
 		mGameScene = GameScene::create(mSong);
 		mGameScene->retain();
 
-		DWORD tid;
-		HANDLE hThread = CreateThread(NULL, 0, LoadStart, this, 0, &tid);
-		if(NULL == hThread)
-			return false;
-
+		m_loadThread = std::thread(LoadStart, this);
 		Sprite* stageImage = Sprite::create((mSong->getParentPath() + mSong->getStageFile()).c_str());
 		if(stageImage)
 		{
@@ -81,8 +77,6 @@ namespace BMS
 			stageImage->setAnchorPoint(Point::ZERO);
 			addChild(stageImage);
 		}
-
-		CloseHandle(hThread);
 
 		auto keyListener = EventListenerKeyboard::create();
 		keyListener->onKeyPressed = CC_CALLBACK_2(LoadingScene::onKeyDown, this);

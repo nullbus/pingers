@@ -1,5 +1,6 @@
 #pragma once
 #include <cocos2d.h>
+#include <thread>
 
 namespace BMS
 {
@@ -25,6 +26,7 @@ namespace BMS
 	private:
 		volatile bool m_bFinish;
 		volatile bool m_bFailed;
+		std::thread m_loadThread;
 
 		SongInfo *mSong;
 		GameScene* mGameScene;
