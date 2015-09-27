@@ -8,6 +8,7 @@
 
 #include <string>
 #include "definitions.h"
+#include <boost/filesystem.hpp>
 
 namespace BMS
 {
@@ -19,15 +20,15 @@ namespace BMS
 	public:
 		SongInfo();
 
-		const std::string getParentPath() const
+		boost::filesystem::path getParentPath() const
 		{
-			return mPath.substr(0, mPath.find_last_of('/')+1);
+			return mPath.parent_path();
 		}
 
 		const std::string& getTitle() const { return mTitle; }
 		const std::string& getGenre() const { return mGenre; }
 		const std::string& getArtist() const { return mArtist; }
-		const std::string& getPath() const { return mPath; }
+		std::string getPath() const { return mPath.string(); }
 		const std::string& getStageFile() const { return mStageFile; }
 		float getBpm() const { return mBpm; }
 		int getLevel() const { return mLevel; }
@@ -36,7 +37,7 @@ namespace BMS
 	private:
 		void init();
 
-		std::string mPath;
+		boost::filesystem::path mPath;
 		std::string mTitle;
 		std::string mGenre;
 		std::string mArtist;

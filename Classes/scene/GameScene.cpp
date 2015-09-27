@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include <algorithm>
+#include <boost/filesystem.hpp>
 #include "bms/BmsChannel.h"
 #include "bms/BmsParser.h"
 #include "component/Panel.h"
@@ -18,6 +19,7 @@
 #include "util/containerutil.h"
 #include "JukeboxScene.h"
 using namespace cocos2d;
+using namespace boost::filesystem;
 
 #pragma warning(disable:4996)
 #pragma warning(disable:4101)
@@ -177,259 +179,6 @@ namespace BMS
 				it->second->autoplay(position);
 			}
 		}
-
-		/*
-		float rate;
-		char buf[16];
-
-		speed = panel->getSpeed();
-		bmsWave->update();
-
-		sprintf(buf, "%d, %.1f", noteIndex, mCurrentBpm);
-		g->drawString(Panel::PANEL_WIDTH+100, 100, buf);
-
-		int i = (int)playTime*mCurrentBpm/(SINK1*250*nowRate);
-
-		// 현재마디 구하기
-		int madi = (i>>2) + origMadi;
-
-		// 해당 마디의 박자(4박)
-		i &= 3;
-
-		int sink2 = 16;
-		FRECT rt;
-		Note *n;
-
-		//bpm노트처리
-		while(bpmNote.size() != bpmNoteIndex){
-
-			n = &bpmNote[bpmNoteIndex];
-
-			if(isPassed(n, mCurrentBpm, nowRate, playTime, origPosit) == false)
-				break;
-
-			// origPosit은 절대값
-			origPosit = n->madi + n->madiPosit;
-			origMadi = madi;
-			origTime = origTime + playTime;
-			playTime = 0;
-			mCurrentBpm = n->wav*10;
-			bpmNoteIndex++;
-		}
-
-		// 마디노트처리
-		while(madiNote.size() != madiNoteIndex){
-			n = &madiNote[ madiNoteIndex ];
-			if(isPassed(n, mCurrentBpm, nowRate, playTime, origPosit) == false)
-				break;
-			origMadi = nowMadi = n->madi/1000;
-			origTime = (origTime + playTime);
-			origPosit = n->madi;
-			nowRate = getMadiRate(nowMadi);
-			playTime = 0;
-			madiNoteIndex++;
-		}
-
-		// BGA 그리기
-		while(bgaNote.size() != bgaNoteIndex){
-			n = &bgaNote[ bgaNoteIndex ];
-			if(isPassed(n, mCurrentBpm, nowRate, playTime, origPosit))
-				bgaNoteIndex++;
-			else
-				break;
-		}
-		if(bgaNote.size() && bgaNoteIndex){
-			DoBmsImg *bitmap = bga->getBga(bgaNote[bgaNoteIndex-1].wav-1);
-			if(bitmap){
-				SetFRect(&rt, 400, 150, 400+bitmap->getWidth(), 150+bitmap->getHeight());
-				g->drawImage(bitmap, RS_NORMAL, &rt);
-			}
-		}
-
-		// Masked BGA 그리기
-		while(bgaMaskNote.size() != bgaMaskNoteIndex){
-			n = &bgaMaskNote[ bgaMaskNoteIndex ];
-			if(isPassed(n, mCurrentBpm, nowRate, playTime, origPosit))
-				bgaMaskNoteIndex++;
-			else
-				break;
-		}
-		if(bgaMaskNote.size() && bgaMaskNoteIndex){
-			DoBmsImg *bitmap = bga->getBga(bgaMaskNote[bgaMaskNoteIndex-(bgaMaskNoteIndex==0?0:1)].wav-1);
-			if(bitmap){
-				SetFRect(&rt, 400, 150, 400+bitmap->getWidth(), 150+bitmap->getHeight());
-				g->drawImage(bitmap, RS_COLORKEY, &rt);
-			}
-		}
-
-		// Miss BGA 그리기
-		while(bgaMissNote.size() != bgaMissIndex){
-			n = &bgaMissNote[ bgaMissIndex ];
-			if(isPassed(n, mCurrentBpm, nowRate, playTime, origPosit))
-				bgaMissIndex++;
-			else
-				break;
-		}
-		if(bgaMissNote.size() && bgaMissIndex && bMiss){
-			DoBmsImg *bitmap = bga->getBga(bgaMissNote[bgaMissIndex-(bgaMissIndex==0?0:1)].wav-1);
-			if(bitmap){
-				SetFRect(&rt, 400, 150, 400+bitmap->getWidth(), 150+bitmap->getHeight());
-				g->drawImage(bitmap, RS_COLORKEY, &rt);
-			}
-		}
-
-		// 판넬 그리기
-		if(panel){
-			panel->drawPanel(panel);
-		}
-
-		sprintf(buf, "%.1f, %d", nowRate, nowMadi);
-		g->drawString(500, 50, buf);
-
-
-		//선그리기
-		int j=0, tempBNI=0, tempMNI=0, tempPosit=origPosit, tempBpm=mCurrentBpm, tempNY=0, tempNYTime=0;
-		INT64 tempPlayTime = playTime;
-		double tempRate = nowRate;
-		while(lineNote.size() != lineNoteIndex+j){
-			double rateY;
-			n = &lineNote[ lineNoteIndex + j ];
-			double nY = getNotePosit(n, tempBpm, tempRate, tempPlayTime, tempPosit);
-
-			if(bpmNote.size() != bpmNoteIndex + tempBNI){
-				n = &bpmNote[ bpmNoteIndex + tempBNI ];
-				rateY = getNotePosit(n, tempBpm, tempRate, tempPlayTime, tempPosit);
-
-				if(rateY < nY){
-					rateY = getNotePosit(n, tempBpm, tempRate, tempPlayTime, tempPosit);
-					tempNY = getMonitorPosit(n, tempBpm, tempRate, tempPlayTime, tempPosit) + tempNY;
-					tempPosit = n->madi + n->madiPosit;
-					tempPlayTime = 0;
-					tempBpm = n->wav * 10;
-					tempBNI++;
-					continue;
-				}
-			}
-
-			if(madiNote.size() != madiNoteIndex + tempMNI){
-				n = &madiNote[ madiNoteIndex + tempMNI ];
-				rateY = getNotePosit(n, tempBpm, tempRate, tempPlayTime, tempPosit);
-
-				if(rateY < nY){
-					tempNY = getMonitorPosit(n, tempBpm, tempRate, tempPlayTime, tempPosit) + tempNY;
-					tempPosit = n->madi;
-					tempPlayTime = 0;
-					tempRate = (float)n->wav/1000;
-					tempMNI++;
-					continue;
-				}
-			}
-
-			n = &lineNote[ lineNoteIndex + j ];
-			if(isPassed(n, mCurrentBpm, nowRate, playTime, origPosit)){
-				lineNoteIndex++;
-				continue;
-			}else if(getMonitorPosit(n, tempBpm, tempRate, tempPlayTime, tempPosit) + tempNY > Panel::PANEL_HEIGHT){
-				break;
-			}else{
-				sprintf(buf, "%d", madi+j);
-				nY = Panel::PANEL_HEIGHT - getMonitorPosit(n, tempBpm, tempRate, tempPlayTime, tempPosit) - tempNY;
-				g->drawLine(24, nY, Panel::PANEL_WIDTH, nY);
-				g->drawString(Panel::PANEL_WIDTH+10, nY, buf);
-			}
-
-			j++;
-		}
-
-		// 플레이노트 그리기, 플레어 여부 체크
-		for(int i=0; i<MAX_KEY; i++){
-
-			j=0, tempBNI=0, tempMNI=0, tempPlayTime=playTime, tempPosit=origPosit, tempRate=nowRate, tempBpm=mCurrentBpm, tempNY=0, tempNYTime=0;
-			while(playNote[i].size() > noteIndex[i] + j){
-				double rateY;
-				n = &playNote[i][ noteIndex[i] + j ];
-				double nY = getNotePosit(n, tempBpm, tempRate, tempPlayTime, tempPosit);
-
-				if(bpmNote.size() != bpmNoteIndex + tempBNI){
-					n = &bpmNote[ bpmNoteIndex + tempBNI ];
-					rateY = getNotePosit(n, tempBpm, tempRate, tempPlayTime, tempPosit);
-
-					if(rateY < nY){
-						tempNY = getMonitorPosit(n, tempBpm, tempRate, tempPlayTime, tempPosit) + tempNY;
-						tempNYTime = getNotePosit(n, tempBpm, tempRate, tempPlayTime, tempPosit) + tempNYTime;
-						tempPosit = n->madi + n->madiPosit;
-						tempPlayTime = 0;
-						tempBpm = n->wav * 10;
-						tempBNI++;
-						continue;
-					}
-				}
-
-				if(madiNote.size() != madiNoteIndex + tempMNI){
-					n = &madiNote[ madiNoteIndex + tempMNI ];
-					rateY = getNotePosit(n, tempBpm, tempRate, tempPlayTime, tempPosit);
-
-					if(rateY < nY){
-						tempNY = getMonitorPosit(n, tempBpm, tempRate, tempPlayTime, tempPosit) + tempNY;
-						tempNYTime = getNotePosit(n, tempBpm, tempRate, tempPlayTime, tempPosit) + tempNYTime;
-						tempPosit = n->madi;
-						tempPlayTime = 0;
-						tempRate = (float)n->wav/1000;
-						tempMNI++;
-						continue;
-					}
-				}
-
-				n = &playNote[i][ noteIndex[i] + j ];
-				nY = getMonitorPosit(n, tempBpm, tempRate, tempPlayTime, tempPosit) + tempNY;
-				if(nY > ((PlayNote*)n)->cposit)
-					nY = nY;
-				((PlayNote*)n)->cposit = nY;
-				if(bAuto && isPassed(n, mCurrentBpm, nowRate, playTime, origPosit)){
-					setPush(i);
-					setUp(i);
-					continue;
-				}else if(getNotePosit(n, tempBpm, tempRate, tempPlayTime, tempPosit)+tempNYTime<-400){
-					// 실패 처리
-					panel->setJudge(JUDGE_FAIL);
-					noteIndex[i]++;
-					combo = 0;
-					continue;
-				}else if(nY <= Panel::PANEL_HEIGHT && nY >= 0){
-					n->drawNote(g, Panel::PANEL_HEIGHT - nY, m_song->getBpm()/10.0);
-				}else{
-					break;
-				}
-
-				j++;
-			}
-		}
-
-		panel->drawJudge(panel);
-		panel->drawCombo(panel);
-
-		sprintf(buf, "%d", score);
-		g->drawString(200, 0, buf);
-
-		// wav노트 처리
-		while(wavNote.size() != wavNoteIndex){
-			n = &wavNote[ wavNoteIndex ];
-
-			if(!isPassed(n, mCurrentBpm, nowRate, playTime, origPosit))
-				break;
-			gameWav->playWave(bmsWave, n->wav-1);
-			wavNoteIndex++;
-		}
-
-		// BG노트 처리
-		while(notes.size() != bgNoteIndex){
-			n = &notes[ bgNoteIndex ];
-
-			if(!isPassed(n, mCurrentBpm, nowRate, playTime, origPosit))
-				break;
-			gameWav->playWave(bmsWave, n->wav-1);
-			bgNoteIndex++;
-		}*/
 	}
 
 
@@ -526,36 +275,42 @@ namespace BMS
 		// image(bga)
 		for(auto it = mBmsDocument.bga().begin(); it != mBmsDocument.bga().end(); it++)
 		{
-			std::string path = mBmsDocument.header().getParentPath() + it->second;
-			unsigned dotPos = path.find_last_of('.');
-			if(dotPos != std::string::npos)
-				path = path.substr(0, dotPos+1);
-
-			for(int i=0; i<supportLen; i++)
+			path fullpath = mBmsDocument.header().getParentPath() / it->second;
+			if (is_regular_file(fullpath))
 			{
-				FILE* checkExist = fopen((path + supportFormat[i]).c_str(), "rb");
-				if(!checkExist)
-					continue;
-				fclose(checkExist);
-
-				auto image = new Image();
-				//if(false == image->initWithImageFileThreadSafe((path + supportFormat[i]).c_str(), computeImageFormatType(path + supportFormat[i])))
-				if (!image->initWithImageFile((path + supportFormat[i]).c_str()))
+				auto image = new Image;
+				if (image->initWithImageFile(fullpath.string().c_str()))
 				{
-					delete image;
+					mImageDictionary[it->first] = image;
 					continue;
 				}
 
-				mImageDictionary[it->first] = image;
-				break;
+				delete image;
+			}
+
+			// try alternatives
+			for (const char* ext : supportFormat)
+			{
+				auto alter = fullpath.replace_extension(ext);
+				if (is_regular_file(alter))
+				{
+					auto image = new Image;
+					if (image->initWithImageFile(alter.string().c_str()))
+					{
+						mImageDictionary[it->first] = image;
+						break;
+					}
+
+					delete image;
+				}
 			}
 		}
 
 		// wave
 		for(auto it = mBmsDocument.wave().begin(); it != mBmsDocument.wave().end(); it++)
 		{
-			std::string fullpath = mBmsDocument.header().getParentPath() + it->second;
-			mWavDictionary[it->first] = Audio::AudioManager::instance()->loadSound(fullpath.c_str());
+			path fullpath = mBmsDocument.header().getParentPath() / it->second;
+			mWavDictionary[it->first] = Audio::AudioManager::instance()->loadSound(fullpath.string().c_str());
 		}
 
 		return true;

@@ -1,8 +1,9 @@
 #include "Jukebox.h"
-#include <Windows.h>
-#include <tchar.h>
 #include "Song.h"
 #include "bms/BmsParser.h"
+#include "util/logutil.h"
+
+using namespace boost::filesystem;
 
 #pragma warning(disable:4996)
 #pragma warning(disable:4018)
@@ -36,34 +37,25 @@ namespace BMS
 		if(mLoaded)
 			return true;
 
-		//파일정보를 저장할 변수
-		::WIN32_FIND_DATAA c_file;
-		HANDLE hFile;
-
 		clearSongs();
 
-		char jukeboxDir[0xFF];
-		strncpy(jukeboxDir, jukeboxPath, strlen(jukeboxPath)+1);
-		strcat(jukeboxDir, "*.*");
-		
-		/*모든 파일정보를 찾는다.*/
-		if( (hFile = ::FindFirstFileA( jukeboxDir, &c_file )) == INVALID_HANDLE_VALUE )
+		path root(jukeboxPath);
+		if (!is_directory(root))
 		{
-			MessageBox(NULL, _T("Cannot open directory!"), 0, 0);
-			return false;
+			Log::i("cannot open directory %s!", jukeboxPath);
 		}
 
-		while( FindNextFileA( hFile, &c_file ) )
+		for (directory_entry& dir : directory_iterator(root))
 		{
-			if(c_file.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-				findSongsAtFolder(c_file);
+			if (is_directory(dir.path()))
+			{
+				findSongsAtFolder(dir.path());
+			}
 		}
-
-		FindClose( hFile );
 
 		if( !songs.size() )
 		{
-			MessageBox(0, _T("노래가 하나도 없네요"), _T("에러"), MB_OK);
+			Log::i("no songs!");
 			return false;
 		}
 
@@ -71,53 +63,35 @@ namespace BMS
 		return true;
 	}
 
-	void Jukebox::findSongsAtFolder(WIN32_FIND_DATAA& folder)
+	void Jukebox::findSongsAtFolder(const path& dir)
 	{
-		if(strcmp(folder.cFileName, ".") == 0 || strcmp(folder.cFileName, "..") == 0)
+		//if(strcmp(folder.cFileName, ".") == 0 || strcmp(folder.cFileName, "..") == 0)
+		//	return;
+		if(!is_directory(dir))
 			return;
-		if(!(folder.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
-			return;
-
-		if(strcmp(folder.cFileName, ".")==0 || strcmp(folder.cFileName, "..")==0)
-			return;
-
-
-		//파일정보를 저장할 변수
-		WIN32_FIND_DATAA c_file;
-	
-		//식별자
-		HANDLE hFile;
 
 		BmsParser parser;
 		std::string strPath = jukeboxPath;
-		std::string postfix[] = {"*.bms", ".bme"};
+
 		//일단은 .bms, .bme만 지원
+		std::string postfix[] = {".bms", ".bme"};
 
-		for(int i=0; i<sizeof(postfix)/sizeof(postfix[0]); i++)
+		for (directory_entry& file : directory_iterator(dir))
 		{
-			hFile = FindFirstFileA((strPath + folder.cFileName + "/" + postfix[i]).c_str() , &c_file);
-			if( hFile == INVALID_HANDLE_VALUE )
-			{
+			if (!is_regular_file(file.path()))
 				continue;
-			}
-			else
-			{
-				std::string path = strPath + folder.cFileName + "/" + c_file.cFileName;
-				SongInfo *song = new SongInfo;
-				parser.parseHeader(path.c_str(), *song);
-				songs.push_back(song);
 
-				/* Find the rest of the .c files */
-				while( FindNextFileA( hFile, &c_file ) )
-				{
-					path = strPath + folder.cFileName + "/" + c_file.cFileName;
-					song = new SongInfo;
-					parser.parseHeader(path.c_str(), *song);
-					songs.push_back(song);
-				}
-		
-				FindClose( hFile );
+			for (const std::string& ext : postfix)
+			{
+				if (file.path().extension() != ext)
+					continue;
+
+				SongInfo* song = new SongInfo;
+				parser.parseHeader(file.path().string().c_str(), *song);
+				songs.push_back(song);
+				break;
 			}
+
 		}
 	}
 

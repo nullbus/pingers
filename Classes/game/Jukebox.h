@@ -8,8 +8,7 @@
 
 #include <vector>
 #include <string>
-#include <Windows.h>
-
+#include <boost/filesystem.hpp>
 
 namespace BMS
 {
@@ -31,7 +30,7 @@ namespace BMS
 		Jukebox();
 
 		void clearSongs();
-		void findSongsAtFolder(WIN32_FIND_DATAA&);
+		void findSongsAtFolder(const boost::filesystem::path& dir);
 
 	protected:
 		static Jukebox *s_instance;

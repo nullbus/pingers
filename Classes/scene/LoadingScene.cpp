@@ -61,7 +61,7 @@ namespace BMS
 		mGameScene->retain();
 
 		m_loadThread = std::thread(std::bind(&LoadingScene::startLoading, this));
-		Sprite* stageImage = Sprite::create((mSong->getParentPath() + mSong->getStageFile()).c_str());
+		Sprite* stageImage = Sprite::create((mSong->getParentPath() / mSong->getStageFile()).string().c_str());
 		if(stageImage)
 		{
 			const Size& screenSize = Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
