@@ -25,7 +25,7 @@ namespace BMS
 
 	bool Combo::init()
 	{
-		if (!__super::init())
+		if (!Node::init())
 			return false;
 
 		mCombo = 0;
@@ -48,7 +48,7 @@ namespace BMS
 		if(mCombo)
 		{
 			char strCombo[0xff];
-			sprintf_s(strCombo, sizeof(strCombo), "%d", mCombo);
+			snprintf(strCombo, sizeof(strCombo), "%d", mCombo);
 			mLabel->setString(strCombo);
 			mLabel->setVisible(true);
 		}

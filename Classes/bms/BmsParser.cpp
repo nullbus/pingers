@@ -4,8 +4,9 @@
 #include "game/Song.h"
 #include "BmsDocument.h"
 #include <algorithm>
+#include <string.h>
 
-#define HEADERCMP(string, key) (0 == _strnicmp(string.c_str(), #key, strlen(#key)))
+#define HEADERCMP(string, key) (0 == strncasecmp(string.c_str(), #key, strlen(#key)))
 
 namespace BMS
 {
@@ -33,7 +34,7 @@ namespace BMS
 				std::string line = trim( readLine(f) );
 				if(line.length() == 0 || line[0] != '#')
 					continue;
-
+				
 				if(HEADERCMP(line, #TITLE))
 				{
 					songinfo.mTitle = parseArgument(line);
