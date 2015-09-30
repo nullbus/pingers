@@ -98,7 +98,11 @@
 		B117891B1BB6AC2A0001FCAE /* stringutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B11788F41BB6AC2A0001FCAE /* stringutil.cpp */; settings = {ASSET_TAGS = (); }; };
 		B117891C1BB6AC2A0001FCAE /* timeutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B11788F61BB6AC2A0001FCAE /* timeutil.cpp */; settings = {ASSET_TAGS = (); }; };
 		B117891D1BB6AC2A0001FCAE /* timeutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B11788F61BB6AC2A0001FCAE /* timeutil.cpp */; settings = {ASSET_TAGS = (); }; };
-		B19735511BB8F6F300BDEB8E /* libirrklang.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B1FB4EF71BB8EE3F00DF5CD3 /* libirrklang.dylib */; };
+		B122386C1BBB62F900128456 /* libirrklang.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B1FB4EF71BB8EE3F00DF5CD3 /* libirrklang.dylib */; };
+		B122386E1BBB638000128456 /* jukebox in Resources */ = {isa = PBXBuildFile; fileRef = B122386D1BBB638000128456 /* jukebox */; settings = {ASSET_TAGS = (); }; };
+		B122386F1BBB638000128456 /* jukebox in Resources */ = {isa = PBXBuildFile; fileRef = B122386D1BBB638000128456 /* jukebox */; settings = {ASSET_TAGS = (); }; };
+		B12238711BBB662F00128456 /* skin in Resources */ = {isa = PBXBuildFile; fileRef = B12238701BBB662F00128456 /* skin */; settings = {ASSET_TAGS = (); }; };
+		B12238721BBB662F00128456 /* skin in Resources */ = {isa = PBXBuildFile; fileRef = B12238701BBB662F00128456 /* skin */; settings = {ASSET_TAGS = (); }; };
 		B19735521BB8F6FA00BDEB8E /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1FB4EC31BB8EE3E00DF5CD3 /* libboost_filesystem.a */; };
 		B19735531BB8F6FC00BDEB8E /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1FB4EC71BB8EE3E00DF5CD3 /* libboost_system.a */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
@@ -284,6 +288,8 @@
 		B11788F51BB6AC2A0001FCAE /* stringutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringutil.h; sourceTree = "<group>"; };
 		B11788F61BB6AC2A0001FCAE /* timeutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timeutil.cpp; sourceTree = "<group>"; };
 		B11788F71BB6AC2A0001FCAE /* timeutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timeutil.h; sourceTree = "<group>"; };
+		B122386D1BBB638000128456 /* jukebox */ = {isa = PBXFileReference; lastKnownFileType = folder; path = jukebox; sourceTree = "<group>"; };
+		B12238701BBB662F00128456 /* skin */ = {isa = PBXFileReference; lastKnownFileType = folder; path = skin; sourceTree = "<group>"; };
 		B1FB20F91BB8EE2000DF5CD3 /* accumulators.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = accumulators.hpp; sourceTree = "<group>"; };
 		B1FB20FA1BB8EE2000DF5CD3 /* accumulators_fwd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = accumulators_fwd.hpp; sourceTree = "<group>"; };
 		B1FB20FC1BB8EE2000DF5CD3 /* accumulator_base.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = accumulator_base.hpp; sourceTree = "<group>"; };
@@ -11959,11 +11965,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B122386C1BBB62F900128456 /* libirrklang.dylib in Frameworks */,
 				ED545A7E1B68A1FA00C3958E /* libiconv.dylib in Frameworks */,
 				B19735521BB8F6FA00BDEB8E /* libboost_filesystem.a in Frameworks */,
 				B19735531BB8F6FC00BDEB8E /* libboost_system.a in Frameworks */,
 				1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */,
-				B19735511BB8F6F300BDEB8E /* libirrklang.dylib in Frameworks */,
 				5087E76717EB910900C73F5D /* libz.dylib in Frameworks */,
 				8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */,
 				503AE11B17EB9C5A00D1A890 /* IOKit.framework in Frameworks */,
@@ -12057,6 +12063,8 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B12238701BBB662F00128456 /* skin */,
+				B122386D1BBB638000128456 /* jukebox */,
 				521A8EA819F11F5000D177D7 /* fonts */,
 				3EACC98E19EE6D4300EB3C5E /* res */,
 				46880B7619C43A67006E1F66 /* CloseNormal.png */,
@@ -31918,6 +31926,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
+				B12238711BBB662F00128456 /* skin in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
@@ -31932,6 +31941,7 @@
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
+				B122386E1BBB638000128456 /* jukebox in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
@@ -31948,9 +31958,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				46880B8219C43A67006E1F66 /* HelloWorld.png in Resources */,
+				B12238721BBB662F00128456 /* skin in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 				3EACC99019EE6D4300EB3C5E /* res in Resources */,
 				521A8EAA19F11F5000D177D7 /* fonts in Resources */,
+				B122386F1BBB638000128456 /* jukebox in Resources */,
 				46880B7C19C43A67006E1F66 /* CloseNormal.png in Resources */,
 				46880B7E19C43A67006E1F66 /* CloseSelected.png in Resources */,
 			);

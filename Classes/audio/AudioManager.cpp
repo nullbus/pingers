@@ -71,7 +71,7 @@ namespace BMS
 					// try alternative
 					for (int i = 0; i < sizeof(alternative_suffix) / sizeof(*alternative_suffix); i++)
 					{
-						auto alter = strPath.substr(0, extPos) + alternative_suffix[i];
+						auto alter = strPath.substr(0, extPos+1) + alternative_suffix[i];
 						media = loadSoundSource(alter.c_str());
 						if (media && media->getSampleData())
 							break;
